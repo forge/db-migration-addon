@@ -30,6 +30,12 @@
       <classifier>forge-addon</classifier>
       <scope>provided</scope>
     </dependency>
+<dependency>
+	<groupId>org.liquibase</groupId>
+	<artifactId>liquibase-core</artifactId>
+	<version>3.3.5</version>
+</dependency>
+
     <dependency>
       <groupId>org.jboss.forge.furnace.test</groupId>
       <artifactId>furnace-test-harness</artifactId>
