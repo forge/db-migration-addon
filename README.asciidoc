@@ -3,6 +3,24 @@ image:https://travis-ci.org/forge/db-migration-addon.svg?branch=master["Build St
 :idprefix: id_ 
 This addon provides *standalone* functionality. The db-migration-addon enables data migration on Forge for JPA entities. The project is under development and is not stable yet.
 
+=== Depends on
+[options="header"]
+|===
+|Addon |Exported |Optional
+|resources
+|yes
+|no
+|projects
+|yes
+|no
+|parser java
+|yes
+|no
+|parser xml
+|yes
+|no
+|===
+
 === Installation
 
 From Forge CLI:
