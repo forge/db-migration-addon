@@ -1,6 +1,7 @@
 == db-migration-addon
 image:https://travis-ci.org/forge/db-migration-addon.svg?branch=master["Build Status", link="https://travis-ci.org/forge/db-migration-addon"]
-:idprefix: id_ 
+
+:idprefix: id_
 This addon provides *standalone* functionality. The db-migration-addon enables data migration on Forge for JPA entities. The project is under development and is not stable yet.
 
 === Depends on
@@ -42,5 +43,5 @@ To set it up for your current project, simply launch this command:
 dbma-setup
 ----
 +
-  
+and it will create the migration directory for your project
 == Features

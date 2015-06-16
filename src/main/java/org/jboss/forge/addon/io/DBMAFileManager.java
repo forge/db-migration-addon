@@ -43,7 +43,6 @@ public class DBMAFileManager {
 			throw(e);
 		}
 		return result;
-		}
-	
-	
+   }
+
 }

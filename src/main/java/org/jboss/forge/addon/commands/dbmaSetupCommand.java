@@ -20,51 +20,57 @@ import org.jboss.forge.parser.xml.Node;
 import java.io.File;
 import java.lang.Exception;
 
-public class dbmaSetupCommand extends AbstractProjectCommand {
+public class dbmaSetupCommand extends AbstractProjectCommand
+{
 
-	private ResourceFactory factory;
+   private ResourceFactory factory;
 
-	@Override
-	public UICommandMetadata getMetadata(UIContext context) {
-		return Metadata.forCommand(dbmaSetupCommand.class).name("dbma: Setup")
-				.category(Categories.create("Database/Migration"));
-	}
+   @Override
+   public UICommandMetadata getMetadata(UIContext context)
+   {
+      return Metadata.forCommand(dbmaSetupCommand.class).name("dbma: Setup")
+               .category(Categories.create("Database/Migration"));
+   }
 
-	@Override
-	public void initializeUI(UIBuilder builder) throws Exception {
-	}
+   @Override
+   public void initializeUI(UIBuilder builder) throws Exception
+   {
+   }
 
-	
-	
-	@Override
-	public Result execute(UIExecutionContext context) throws Exception {
-		 String projectName = getSelectedProject(context).getFacet(MetadataFacet.class).getProjectName();
-		 
-		 //If migration directory creation is successful then create an empty changeLog file
-		 if(DBMAFileManager.createDirectory(Util.getMigrationDirectoryName(projectName))){
-			 DBMAFileManager.createEmptyChangeLogFile(Util.getChangeLogFileName(projectName));	 
-			 
-			 XMLResource resource = factory.create(new File(Util.getChangeLogFileName(projectName))).reify(XMLResource.class);
-			 Node node = resource.getXmlSource();
-			 Node changeLogChild = node.getOrCreate("databaseChangeLog");
-			 changeLogChild.attribute("xmlns", "http://www.liquibase.org/xml/ns/dbchangelog");
-			 changeLogChild.attribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-			 changeLogChild.attribute("xsi:schemaLocation","http://www.liquibase.org/xml/ns/dbchangelog "
-			 		+ "http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd");
-			 resource.setContents(node);
-		 }
-		return Results.success("Command 'dbma: Setup' successfully executed!");
-	}
+   @Override
+   public Result execute(UIExecutionContext context) throws Exception
+   {
+      String projectName = getSelectedProject(context).getFacet(MetadataFacet.class).getProjectName();
 
-	@Override
-	protected ProjectFactory getProjectFactory() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+      // If migration directory creation is successful then create an empty changeLog file
+      if (DBMAFileManager.createDirectory(Util.getMigrationDirectoryName(projectName)))
+      {
+         DBMAFileManager.createEmptyChangeLogFile(Util.getChangeLogFileName(projectName));
 
-	@Override
-	protected boolean isProjectRequired() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+         XMLResource resource = factory.create(new File(Util.getChangeLogFileName(projectName))).reify(
+                  XMLResource.class);
+         Node node = resource.getXmlSource();
+         Node changeLogChild = node.getOrCreate("databaseChangeLog");
+         changeLogChild.attribute("xmlns", "http://www.liquibase.org/xml/ns/dbchangelog");
+         changeLogChild.attribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+         changeLogChild.attribute("xsi:schemaLocation", "http://www.liquibase.org/xml/ns/dbchangelog "
+                  + "http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd");
+         resource.setContents(node);
+      }
+      return Results.success("Command 'dbma: Setup' successfully executed!");
+   }
+
+   @Override
+   protected ProjectFactory getProjectFactory()
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
+
+   @Override
+   protected boolean isProjectRequired()
+   {
+      // TODO Auto-generated method stub
+      return true;
+   }
 }
