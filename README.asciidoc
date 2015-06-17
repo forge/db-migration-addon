@@ -37,11 +37,11 @@ addon-install-from-git --url https://github.com/forge/db-migration-addon.git
 
 db-migration-addon makes it possible to track changes on your entities for every Forge project you have.
 To set it up for your current project, simply launch this command:
-+
+
 [source,java]
 ----
 dbma-setup
 ----
-+
+
 and it will create the migration directory for your project
 == Features
