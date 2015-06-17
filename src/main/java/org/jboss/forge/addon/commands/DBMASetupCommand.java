@@ -15,12 +15,13 @@ import org.jboss.forge.addon.ui.util.Categories;
 import org.jboss.forge.addon.ui.result.Result;
 import org.jboss.forge.addon.ui.result.Results;
 import org.jboss.forge.addon.util.Util;
+import org.jboss.forge.furnace.Furnace;
 import org.jboss.forge.parser.xml.Node;
 
 import java.io.File;
 import java.lang.Exception;
 
-public class dbmaSetupCommand extends AbstractProjectCommand
+public class DBMASetupCommand extends AbstractProjectCommand
 {
 
    private ResourceFactory factory;
@@ -28,7 +29,7 @@ public class dbmaSetupCommand extends AbstractProjectCommand
    @Override
    public UICommandMetadata getMetadata(UIContext context)
    {
-      return Metadata.forCommand(dbmaSetupCommand.class).name("dbma: Setup")
+      return Metadata.forCommand(DBMASetupCommand.class).name("dbma: Setup")
                .category(Categories.create("Database/Migration"));
    }
 
