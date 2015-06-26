@@ -13,35 +13,34 @@ package org.jboss.forge.addon.dbma.properties;
 public interface DBMAProperties
 {
    /**
-    * sets the db username used by DBMA
+    * sets the DB username used by DBMA
     * @param username
     */
    void setDbUsername(String username);
    
    /**
-    * @return the db username used by DBMA
+    * @return the DB username used by DBMA
     */
    String getDbUsername();
    
    /**
-    * sets the db password used by DBMA
+    * sets the DB password used by DBMA
     * @param password
     */
    void setDbPassword(String password);
    
    /**
-    * @return the db password used by DBMA
+    * @return the DB password used by DBMA
     */
    String getDbPassword();
    
    /**
-    * @return the db url used by DBMA
+    * @return the DB url used by DBMA
     */
-   Integer getDbUrl();
+   String getDbUrl();
    
    /**
-    * sets the db url used by DBMA
-    * 
+    * sets the DB url used by DBMA
     * @param url
     */
    void setDbUrl(String url);
