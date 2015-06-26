@@ -14,10 +14,10 @@ This addon provides *standalone* functionality. The db-migration-addon enables d
 |projects
 |yes
 |no
-|parser java
+|parser XML
 |yes
 |no
-|parser xml
+|facets
 |yes
 |no
 |===
