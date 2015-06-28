@@ -6,119 +6,66 @@
  */
 package org.jboss.forge.addon.dbma.properties;
 
+import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
+import org.jboss.forge.addon.resource.FileResource;
+
 /**
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  */
 public class DBMAPropertiesBuilder implements DBMAProperties
 {
-   private String DbUsername;
-   private String DbPassword;
-   private String DbUrl;
-
-   /**
-    * @return {@link DBMAPropertiesBuilder}
-    */
-   public static DBMAPropertiesBuilder create()
-   {
+   
+   private ConnectionProfile connection;
+   private String liquibaseVersion;
+   
+   public DBMAPropertiesBuilder create(){
       return new DBMAPropertiesBuilder();
    }
-
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#setDbUsername(java.lang.String)
-    */
-   @Override
-   public void setDbUsername(String username)
-   {
-      this.DbUsername = username;
+   
+   public DBMAPropertiesBuilder setLiquibaseVersion(String version){
+      this.liquibaseVersion = version;
+      return this;
    }
    
-   /**
-    * 
-    * @param username
-    * @return {@link DBMAPropertiesBuilder}
-    */
-   public DBMAPropertiesBuilder setNewDbUsername(String username)
-   {
-      this.DbUsername = username;
+   public DBMAPropertiesBuilder setConnection(ConnectionProfile connection){
+      this.connection = connection;
       return this;
    }
 
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#getDbUsername()
+   /* (non-Javadoc)
+    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#getConnectionProfile()
     */
    @Override
-   public String getDbUsername()
+   public ConnectionProfile getConnectionProfile()
    {
-      return this.DbUsername;
+      return this.connection;
    }
 
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#setDbPassword(java.lang.String)
+   /* (non-Javadoc)
+    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#getLiquibaseVersion()
     */
    @Override
-   public void setDbPassword(String password)
+   public String getLiquibaseVersion()
    {
-      this.DbPassword = password;
+      return this.liquibaseVersion;
    }
 
-   /**
-    * 
-    * @param password
-    * @return {@link DBMAPropertiesBuilder}
-    */
-   public DBMAPropertiesBuilder setNewDbPassword(String password)
-   {
-      this.DbPassword = password;
-      return this;
-   }
-
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#getDbPassword()
+   
+   /* (non-Javadoc)
+    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#toPropertiesFile()
     */
    @Override
-   public String getDbPassword()
+   public FileResource<?> toPropertiesFile(FileResource<?> propertiesFile )
    {
-      return this.DbPassword;
+      propertiesFile.setContents("driver: "+this.connection.getDriver()
+               +"classpath: "+this.getConnectionProfile().getPath()
+               +"url: "+this.getConnectionProfile().getUrl()
+               +"username: "+this.getConnectionProfile().getUser()
+               +"password: "+this.getConnectionProfile().getPassword()
+               +"liquibaseVersion "+this.getLiquibaseVersion());
+      return propertiesFile;
    }
-
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#getDbUrl()
-    */
-   @Override
-   public String getDbUrl()
-   {
-      return this.DbUrl;
-   }
-
-   /*
-    * (non-Javadoc)
-    * 
-    * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#setDbUrl(java.lang.String)
-    */
-   @Override
-   public void setDbUrl(String url)
-   {
-      this.DbUrl = url;
-   }
-
-   /**
-    * 
-    * @param url
-    * @return {@link DBMAPropertiesBuilder}
-    */
-   public DBMAPropertiesBuilder setNewDbUrl(String url)
-   {
-      this.DbUrl = url;
-      return this;
-   }
+   
+   
+   
 }

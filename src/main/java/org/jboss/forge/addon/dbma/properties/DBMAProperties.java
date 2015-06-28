@@ -6,6 +6,9 @@
  */
 package org.jboss.forge.addon.dbma.properties;
 
+import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
+import org.jboss.forge.addon.resource.FileResource;
+
 /**
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  *
@@ -13,35 +16,18 @@ package org.jboss.forge.addon.dbma.properties;
 public interface DBMAProperties
 {
    /**
-    * sets the DB username used by DBMA
-    * @param username
+    * get {@link ConnectionProfile}
     */
-   void setDbUsername(String username);
+   ConnectionProfile getConnectionProfile();
    
    /**
-    * @return the DB username used by DBMA
+    * get LiquibaseVersion
     */
-   String getDbUsername();
-   
+   String getLiquibaseVersion();
+
    /**
-    * sets the DB password used by DBMA
-    * @param password
+    * @param propetiesFile
+    * @return a properties file holding all DBMA properties
     */
-   void setDbPassword(String password);
-   
-   /**
-    * @return the DB password used by DBMA
-    */
-   String getDbPassword();
-   
-   /**
-    * @return the DB url used by DBMA
-    */
-   String getDbUrl();
-   
-   /**
-    * sets the DB url used by DBMA
-    * @param url
-    */
-   void setDbUrl(String url);
+   FileResource<?> toPropertiesFile(FileResource<?> propetiesFile);
 }
