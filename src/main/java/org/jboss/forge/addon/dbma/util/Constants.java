@@ -12,12 +12,8 @@ package org.jboss.forge.addon.dbma.util;
  */
 public class Constants
 {
-   public final static String MIGRATION_DIRECTORY_NAME = "migration";
-   public final static String PROPERTIES_FILE_NAME = "dbma.properties";
-   public static final String DBMA_DIRECTORY_NAME = "migration";
-   public static final String DBMA_CONFIGURATION_FILE = "dbma.properties";
+   public static final String DBMA_MIGRATION_DIRECTORY_NAME = "migration";
+   public static final String DBMA_PROPERTIES_FILE = "dbma.properties";
    public static final String LIQUIBASE_DEFAULT_VERSION = "3.4.0";
    public static final String LIQUIBASE_VERSION_PROPERTY_NAME = "LIQUIBASE_VERSION";
-
-
 }
