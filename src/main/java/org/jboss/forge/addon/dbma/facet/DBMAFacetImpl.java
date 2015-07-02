@@ -29,14 +29,13 @@ import org.jboss.forge.addon.resource.FileResource;
  */
 
 @FacetConstraints({
-   @FacetConstraint(DependencyFacet.class),
-   @FacetConstraint(MetadataFacet.class),
-   @FacetConstraint(ResourcesFacet.class)
+         @FacetConstraint(DependencyFacet.class),
+         @FacetConstraint(MetadataFacet.class),
+         @FacetConstraint(ResourcesFacet.class)
 })
-
 public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
 {
-   
+
    private DependencyBuilder createLiquibaseDependency()
    {
       return DependencyBuilder.create()
@@ -47,16 +46,17 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
                .setScopeType("provided");
    }
 
-   public String getLiquibaseDefaultVersion(){
+   public String getLiquibaseDefaultVersion()
+   {
       return Constants.LIQUIBASE_DEFAULT_VERSION;
    }
-   
+
    public String getInstalledVersion()
    {
       MetadataFacet metadataFacet = getFaceted().getFacet(MetadataFacet.class);
       return metadataFacet.getDirectProperty(Constants.LIQUIBASE_VERSION_PROPERTY_NAME);
    }
-   
+
    @Override
    public boolean install()
    {
@@ -68,38 +68,46 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
       {
          createMigrationDirectory();
          dependencyFacet.addDirectManagedDependency(createLiquibaseDependency());
-         metadataFacet.setDirectProperty(Constants.LIQUIBASE_VERSION_PROPERTY_NAME, Constants.LIQUIBASE_DEFAULT_VERSION);
+         metadataFacet
+                  .setDirectProperty(Constants.LIQUIBASE_VERSION_PROPERTY_NAME, Constants.LIQUIBASE_DEFAULT_VERSION);
       }
       return true;
    }
-   
-   public void createMigrationDirectory(){
+
+   public void createMigrationDirectory()
+   {
       ResourcesFacet resourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
       resourcesFacet.getResourceDirectory().getOrCreateChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME);
-   } 
+   }
 
    public boolean isInstalled()
    {
       DependencyFacet dependencyFacet = getFaceted().getFacet(DependencyFacet.class);
-      return dependencyFacet.hasDirectManagedDependency(createLiquibaseDependency());
+      return dependencyFacet.hasDirectManagedDependency(createLiquibaseDependency())
+               && getFaceted().getFacet(ResourcesFacet.class).getResourceDirectory()
+                        .getChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME).exists();
    }
-   
-   public void setPropertiesFile(ConnectionProfile connection){
+
+   public void setPropertiesFile(ConnectionProfile connection)
+   {
       DBMAPropertiesBuilder pBuilder = DBMAPropertiesBuilder.create();
       pBuilder.setConnection(connection).setLiquibaseVersion(Constants.LIQUIBASE_DEFAULT_VERSION);
-      
+
       ResourcesFacet projectResourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
-      DirectoryResource migrationDir = projectResourcesFacet.getResourceDirectory().getChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME);
-      
-      FileResource<?> propertiesFile = migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE).reify(FileResource.class);      
-      propertiesFile.setContents(pBuilder.toString()); 
+      DirectoryResource migrationDir = projectResourcesFacet.getResourceDirectory().getChildDirectory(
+               Constants.DBMA_MIGRATION_DIRECTORY_NAME);
+
+      FileResource<?> propertiesFile = migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE).reify(FileResource.class);
+      propertiesFile.setContents(pBuilder.toString());
    }
-   
-   public Properties getDBMAProperties(){
+
+   public Properties getDBMAProperties()
+   {
       Properties dbmaProperties = new Properties();
-      
+
       ResourcesFacet resourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
-      DirectoryResource migrationDir = resourcesFacet.getResourceDirectory().getChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME);
+      DirectoryResource migrationDir = resourcesFacet.getResourceDirectory().getChildDirectory(
+               Constants.DBMA_MIGRATION_DIRECTORY_NAME);
       try
       {
          dbmaProperties.load(migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE).getResourceInputStream());
