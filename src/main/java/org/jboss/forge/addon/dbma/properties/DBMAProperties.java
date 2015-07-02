@@ -26,8 +26,7 @@ public interface DBMAProperties
    String getLiquibaseVersion();
 
    /**
-    * @param propetiesFile
-    * @return a properties file holding all DBMA properties
+    * @return a String representing {@link DBMAProperties}
     */
-   FileResource<?> toPropertiesFile(FileResource<?> propetiesFile);
+   String toString();
 }

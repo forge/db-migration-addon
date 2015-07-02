@@ -14,25 +14,30 @@ import org.jboss.forge.addon.resource.FileResource;
  */
 public class DBMAPropertiesBuilder implements DBMAProperties
 {
-   
+
    private ConnectionProfile connection;
    private String liquibaseVersion;
-   
-   public DBMAPropertiesBuilder create(){
+
+   public static DBMAPropertiesBuilder create()
+   {
       return new DBMAPropertiesBuilder();
    }
-   
-   public DBMAPropertiesBuilder setLiquibaseVersion(String version){
+
+   public DBMAPropertiesBuilder setLiquibaseVersion(String version)
+   {
       this.liquibaseVersion = version;
       return this;
    }
-   
-   public DBMAPropertiesBuilder setConnection(ConnectionProfile connection){
+
+   public DBMAPropertiesBuilder setConnection(ConnectionProfile connection)
+   {
       this.connection = connection;
       return this;
    }
 
-   /* (non-Javadoc)
+   /*
+    * (non-Javadoc)
+    * 
     * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#getConnectionProfile()
     */
    @Override
@@ -41,7 +46,9 @@ public class DBMAPropertiesBuilder implements DBMAProperties
       return this.connection;
    }
 
-   /* (non-Javadoc)
+   /*
+    * (non-Javadoc)
+    * 
     * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#getLiquibaseVersion()
     */
    @Override
@@ -50,22 +57,20 @@ public class DBMAPropertiesBuilder implements DBMAProperties
       return this.liquibaseVersion;
    }
 
-   
-   /* (non-Javadoc)
+   /*
+    * (non-Javadoc)
+    * 
     * @see org.jboss.forge.addon.dbma.properties.DBMAProperties#toPropertiesFile()
     */
    @Override
-   public FileResource<?> toPropertiesFile(FileResource<?> propertiesFile )
+   public String toString()
    {
-      propertiesFile.setContents("driver: "+this.connection.getDriver()
-               +"classpath: "+this.getConnectionProfile().getPath()
-               +"url: "+this.getConnectionProfile().getUrl()
-               +"username: "+this.getConnectionProfile().getUser()
-               +"password: "+this.getConnectionProfile().getPassword()
-               +"liquibaseVersion "+this.getLiquibaseVersion());
-      return propertiesFile;
+      return "driver: " + this.connection.getDriver()+"\n"
+               + "classpath: " + this.getConnectionProfile().getPath()+"\n"
+               + "url: " + this.getConnectionProfile().getUrl()+"\n"
+               + "username: " + this.getConnectionProfile().getUser()+"\n"
+               + "password: " + this.getConnectionProfile().getPassword()+"\n"
+               + "liquibaseVersion " + this.getLiquibaseVersion();
    }
-   
-   
-   
+
 }
