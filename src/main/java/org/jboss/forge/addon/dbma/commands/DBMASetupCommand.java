@@ -42,7 +42,8 @@ public class DBMASetupCommand extends AbstractProjectCommand implements UIWizard
    @Override
    public UICommandMetadata getMetadata(UIContext context)
    {
-      return Metadata.forCommand(DBMASetupCommand.class).name("dbma: Setup")
+      return Metadata.forCommand(DBMASetupCommand.class).name("DBMA: Setup")
+               .description("This wizard will guide you through the initial DBMA setup")
                .category(Categories.create("Database/Migration"));
    }
 
@@ -81,6 +82,7 @@ public class DBMASetupCommand extends AbstractProjectCommand implements UIWizard
    {
       return Results.navigateTo(
                AddLiquibaseCommand.class,
-               GetPropertiesCommand.class);
+               GetPropertiesCommand.class,
+               CreateInitialChangelogFileCommand.class);
    }
 }
