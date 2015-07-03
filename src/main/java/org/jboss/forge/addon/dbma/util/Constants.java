@@ -14,7 +14,7 @@ public class Constants
 {
    public static final String DBMA_MIGRATION_DIRECTORY_NAME = "migration";
    public static final String DBMA_PROPERTIES_FILE_NAME = "dbma.properties";
-   public static final String LIQUIBASE_VERSION_PROPERTY_NAME = "LIQUIBASE_VERSION";
+   public static final String LIQUIBASE_VERSION_PROPERTY_NAME = "version.liquibase";
    
    public static final String LIQUIBASE_DEFAULT_VERSION = "3.4.0";
    
