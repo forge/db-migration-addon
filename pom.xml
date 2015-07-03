@@ -27,13 +27,14 @@
          <email>wicem.zrelly@@gmail.com</email>
       </developer>
    </developers>
+   
    <contributors>
       <contributor>
          <name>George Gastaldi</name>
          <email>gegastaldi@gmail.com</email>
       </contributor>
    </contributors>
-  
+   
   <properties>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
@@ -80,6 +81,12 @@
       <artifactId>core</artifactId>
       <classifier>forge-addon</classifier>
     </dependency>
+    <dependency>
+    	<groupId>org.jboss.forge.addon</groupId>
+    	<artifactId>ui-test-harness</artifactId>
+    	<classifier>forge-addon</classifier>
+    	<scope>test</scope>
+    	</dependency>
   </dependencies>
   <build>
     <finalName>db-migration-addon</finalName>
