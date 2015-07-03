@@ -6,6 +6,7 @@
  */
 package org.jboss.forge.addon.dbma.facet;
 
+import java.util.List;
 import java.util.Properties;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
@@ -30,5 +31,15 @@ public interface DBMAFacet extends ProjectFacet
     * @return properties used by Liquibase to perform migration 
     */
    public Properties getDBMAProperties();
+
+   /**
+    * @return a list of Liquibase available versions
+    */
+   public List<String> getLiquibaseVersions();
+
+   /**
+    * @return a list of possible generation modes for the changelog file
+    */
+   public Iterable<String> getGenerationModes();
 
 }

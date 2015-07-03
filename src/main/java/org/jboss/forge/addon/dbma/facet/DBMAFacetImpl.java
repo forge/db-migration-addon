@@ -7,6 +7,8 @@
 package org.jboss.forge.addon.dbma.facet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
@@ -64,7 +66,7 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
       MetadataFacet metadataFacet = getFaceted().getFacet(MetadataFacet.class);
 
       String version = metadataFacet.getDirectProperty(Constants.LIQUIBASE_VERSION_PROPERTY_NAME);
-      if (version == null)
+      if (version != null)
       {
          createMigrationDirectory();
          dependencyFacet.addDirectManagedDependency(createLiquibaseDependency());
@@ -79,7 +81,10 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
       ResourcesFacet resourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
       resourcesFacet.getResourceDirectory().getOrCreateChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME);
    }
+   
+   
 
+   @Override
    public boolean isInstalled()
    {
       DependencyFacet dependencyFacet = getFaceted().getFacet(DependencyFacet.class);
@@ -97,7 +102,7 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
       DirectoryResource migrationDir = projectResourcesFacet.getResourceDirectory().getChildDirectory(
                Constants.DBMA_MIGRATION_DIRECTORY_NAME);
 
-      FileResource<?> propertiesFile = migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE).reify(FileResource.class);
+      FileResource<?> propertiesFile = migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE_NAME).reify(FileResource.class);
       propertiesFile.setContents(pBuilder.toString());
    }
 
@@ -110,7 +115,7 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
                Constants.DBMA_MIGRATION_DIRECTORY_NAME);
       try
       {
-         dbmaProperties.load(migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE).getResourceInputStream());
+         dbmaProperties.load(migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE_NAME).getResourceInputStream());
       }
       catch (IOException e)
       {
@@ -118,6 +123,26 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
          e.printStackTrace();
       }
       return dbmaProperties;
+   }
+
+   @Override
+   public List<String> getLiquibaseVersions()
+   {
+      List<String> versions = new ArrayList<String>();
+      versions.add(Constants.LIQUIBASE_DEFAULT_VERSION);
+      
+      return versions;
+
+   }
+
+   @Override
+   public List<String> getGenerationModes()
+   {
+      List<String> modes = new ArrayList<String>();
+      modes.add(Constants.MODE_EMPTY_CHANGELOG);
+      modes.add(Constants.MODE_CHANGELOG_FROM_DB);
+
+      return modes;
    }
 
 }
