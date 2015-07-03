@@ -65,8 +65,7 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
       DependencyFacet dependencyFacet = getFaceted().getFacet(DependencyFacet.class);
       MetadataFacet metadataFacet = getFaceted().getFacet(MetadataFacet.class);
 
-      String version = metadataFacet.getDirectProperty(Constants.LIQUIBASE_VERSION_PROPERTY_NAME);
-      if (version != null)
+      if (!isInstalled())
       {
          createMigrationDirectory();
          dependencyFacet.addDirectManagedDependency(createLiquibaseDependency());
