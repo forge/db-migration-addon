@@ -1,16 +1,9 @@
-/**
- * Copyright 2015 Red Hat, Inc. and/or its affiliates.
- *
- * Licensed under the Eclipse Public License version 1.0, available at
- * http://www.eclipse.org/legal/epl-v10.html
- */
 package org.jboss.forge.addon.dbma.commands;
 
 import org.jboss.forge.addon.dbma.facet.DBMAFacet;
-import org.jboss.forge.addon.dbma.util.Constants;
-import org.jboss.forge.addon.facets.FacetFactory;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
+import org.jboss.forge.addon.ui.command.AbstractUICommand;
 import org.jboss.forge.addon.ui.command.UICommand;
 import org.jboss.forge.addon.ui.context.UIBuilder;
 import org.jboss.forge.addon.ui.context.UIContext;
@@ -21,73 +14,67 @@ import org.jboss.forge.addon.ui.input.UISelectOne;
 import org.jboss.forge.addon.ui.metadata.UICommandMetadata;
 import org.jboss.forge.addon.ui.metadata.WithAttributes;
 import org.jboss.forge.addon.ui.util.Metadata;
+import org.jboss.forge.addon.ui.util.Categories;
 import org.jboss.forge.addon.ui.result.Result;
 import org.jboss.forge.addon.ui.result.Results;
 
+import java.lang.Override;
 import java.lang.Exception;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
-/**
- * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
- *
- */
-
-public class AddLiquibaseCommand extends AbstractProjectCommand implements UICommand
+public class GenerateChangelogFileCommand extends AbstractProjectCommand implements UICommand
 {
-
    @Inject
-   private FacetFactory facetFactory;
-
-   @Inject
-   private DBMAFacet dbmaFacet;
+   @WithAttributes(shortName = 'm', label = "Generation mode", type = InputType.DROPDOWN)
+   private UISelectOne<String> generationMode;
    
    @Inject
-   @WithAttributes(shortName = 'v', label = "Liquibase Version", type = InputType.DROPDOWN)
-   private UISelectOne<String> liquibaseVersion;
+   DBMAFacet dbmaFacet;
 
    @Override
    public UICommandMetadata getMetadata(UIContext context)
    {
-      return Metadata.forCommand(AddLiquibaseCommand.class)
-               .name("DBMA: Add")
-               .description("This will add the Liquibase dependency and create the migration directory"
-                        + "where we will store all DBMA Files");
+      return Metadata.forCommand(GenerateChangelogFileCommand.class)
+            .name("generate-initial-changelog-file");
    }
 
    @Override
    public void initializeUI(UIBuilder builder) throws Exception
    {
-      builder.add(liquibaseVersion);
-      liquibaseVersion.setDefaultValue("");
-      liquibaseVersion.setValueChoices(new Callable<Iterable<String>>() {
+      builder.add(generationMode);
+      generationMode.setDefaultValue("");
+      generationMode.setValueChoices(
+      new Callable<Iterable<String>>() {
          @Override
          public Iterable<String> call() throws Exception {
-            return dbmaFacet.getLiquibaseVersions();
+            return dbmaFacet.getGenerationModes();
          }
       });
+      
    }
    
    @Override
    public void validate(UIValidationContext validator)
    {
       super.validate(validator);
-      if (liquibaseVersion.getValue().equals(""))
-            validator.addValidationError(liquibaseVersion,
-                  "Please select a Liquibase version");
+      if (generationMode.getValue().equals(""))
+            validator.addValidationError(generationMode,
+                  "Please select how you want to generate the changelog file");
    }
 
    @Override
    public Result execute(UIExecutionContext context) throws Exception
    {
-      facetFactory.install(getSelectedProject(context), dbmaFacet);
-      return Results.success("Created migration directory and added liquibase dependency");
+      return Results
+            .success("Command 'create-initial-changelog-file' successfully executed!");
    }
-
+   
    @Override
    public boolean isEnabled(UIContext context) {
-         return !getSelectedProject(context).hasFacet(DBMAFacet.class);
+         return getSelectedProject(context).hasFacet(DBMAFacet.class)
+                  && getSelectedProject(context).getFacet(DBMAFacet.class).isInstalled();
    }
    
    @Override

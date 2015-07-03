@@ -6,9 +6,9 @@
  */
 package org.jboss.forge.addon.dbma.commands;
 
+import org.jboss.forge.addon.dbma.facet.DBMAFacet;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
-import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.context.UIBuilder;
 import org.jboss.forge.addon.ui.context.UIContext;
 import org.jboss.forge.addon.ui.context.UIExecutionContext;
@@ -25,24 +25,22 @@ import java.lang.Exception;
 
 import javax.inject.Inject;
 
-
 /**
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  *
  */
 
-public class DBMASetupCommand extends AbstractProjectCommand implements UIWizard
+public class SetupWizard extends AbstractProjectCommand implements UIWizard
 {
 
    @Inject
-   private ResourceFactory resourceFactory;
-   
-
+   private ProjectFactory projectFactory;
 
    @Override
    public UICommandMetadata getMetadata(UIContext context)
    {
-      return Metadata.forCommand(DBMASetupCommand.class).name("DBMA: Setup")
+      return Metadata.forCommand(SetupWizard.class)
+               .name("DBMA: Setup")
                .description("This wizard will guide you through the initial DBMA setup")
                .category(Categories.create("Database/Migration"));
    }
@@ -55,34 +53,33 @@ public class DBMASetupCommand extends AbstractProjectCommand implements UIWizard
    @Override
    public Result execute(UIExecutionContext context) throws Exception
    {
-      return null;
-
+      return Results.success("DBMA setup complete");
    }
 
    @Override
    protected ProjectFactory getProjectFactory()
    {
-      // TODO Auto-generated method stub
-      return null;
+      return projectFactory;
    }
 
    @Override
    protected boolean isProjectRequired()
    {
-      // TODO Auto-generated method stub
       return true;
    }
+   
+   @Override
+   public boolean isEnabled(UIContext context) {
+         return !getSelectedProject(context).hasFacet(DBMAFacet.class);
+   }
 
-   /* (non-Javadoc)
-    * @see org.jboss.forge.addon.ui.wizard.UIWizard#next(org.jboss.forge.addon.ui.context.UINavigationContext)
-    */
    @Override
    @SuppressWarnings("unchecked")
    public NavigationResult next(UINavigationContext arg0) throws Exception
    {
       return Results.navigateTo(
                AddLiquibaseCommand.class,
-               GetPropertiesCommand.class,
-               CreateInitialChangelogFileCommand.class);
+               SetPropertiesCommand.class,
+               GenerateChangelogFileCommand.class);
    }
 }
