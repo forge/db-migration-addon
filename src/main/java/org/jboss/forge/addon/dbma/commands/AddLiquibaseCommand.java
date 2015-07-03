@@ -87,7 +87,11 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
 
    @Override
    public boolean isEnabled(UIContext context) {
+      Boolean parent = super.isEnabled(context);
+      if(parent) {
          return !getSelectedProject(context).hasFacet(DBMAFacet.class);
+      }
+      return parent;
    }
    
    @Override

@@ -68,7 +68,7 @@ public class GenerateChangelogFileCommand extends AbstractProjectCommand impleme
    public Result execute(UIExecutionContext context) throws Exception
    {
       return Results
-            .success("Command 'create-initial-changelog-file' successfully executed!");
+            .success("Initial changelog file has been created!");
    }
    
    @Override

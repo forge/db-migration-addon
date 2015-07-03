@@ -70,7 +70,11 @@ public class SetupWizard extends AbstractProjectCommand implements UIWizard
    
    @Override
    public boolean isEnabled(UIContext context) {
+      Boolean parent = super.isEnabled(context);
+      if(parent) {
          return !getSelectedProject(context).hasFacet(DBMAFacet.class);
+      }
+      return parent;
    }
 
    @Override

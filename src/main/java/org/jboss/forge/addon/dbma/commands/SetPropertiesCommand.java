@@ -108,7 +108,7 @@ public class SetPropertiesCommand extends AbstractProjectCommand implements UICo
    public Result execute(UIExecutionContext context) throws Exception
    {
       ConnectionProfileManager manager = managerProvider.getConnectionProfileManager();
-      if (!connectionProfile.getValue().equals(""))
+      if (connectionProfile != null)
       {
          ConnectionProfile connection = manager.loadConnectionProfiles().get(connectionProfile.getValue());
          if (!connection.isSavePassword())
