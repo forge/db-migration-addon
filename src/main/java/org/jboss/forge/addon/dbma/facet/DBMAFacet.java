@@ -40,6 +40,6 @@ public interface DBMAFacet extends ProjectFacet
    /**
     * @return a list of possible generation modes for the changelog file
     */
-   public Iterable<String> getGenerationModes();
+   public List<String> getGenerationModes();
 
 }
