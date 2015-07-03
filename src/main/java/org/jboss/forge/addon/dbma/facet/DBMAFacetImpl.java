@@ -80,8 +80,6 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
       ResourcesFacet resourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
       resourcesFacet.getResourceDirectory().getOrCreateChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME);
    }
-   
-   
 
    @Override
    public boolean isInstalled()
@@ -94,14 +92,18 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
 
    public void setPropertiesFile(ConnectionProfile connection)
    {
+      String liquibaseVersion = getFaceted().getFacet(MetadataFacet.class).getDirectProperty(
+               Constants.LIQUIBASE_VERSION_PROPERTY_NAME);
       DBMAPropertiesBuilder pBuilder = DBMAPropertiesBuilder.create();
-      pBuilder.setConnection(connection).setLiquibaseVersion(Constants.LIQUIBASE_DEFAULT_VERSION);
+
+      pBuilder.setConnection(connection).setLiquibaseVersion(liquibaseVersion);
 
       ResourcesFacet projectResourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
       DirectoryResource migrationDir = projectResourcesFacet.getResourceDirectory().getChildDirectory(
                Constants.DBMA_MIGRATION_DIRECTORY_NAME);
 
-      FileResource<?> propertiesFile = migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE_NAME).reify(FileResource.class);
+      FileResource<?> propertiesFile = migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE_NAME).reify(
+               FileResource.class);
       propertiesFile.setContents(pBuilder.toString());
    }
 
@@ -129,7 +131,7 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
    {
       List<String> versions = new ArrayList<String>();
       versions.add(Constants.LIQUIBASE_DEFAULT_VERSION);
-      
+
       return versions;
 
    }
