@@ -4,10 +4,9 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.dbma.commands;
+package org.jboss.forge.addon.database.tools.migration.commands;
 
-import org.jboss.forge.addon.dbma.facet.DBMAFacet;
-import org.jboss.forge.addon.dbma.util.Constants;
+import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
 import org.jboss.forge.addon.facets.FacetFactory;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
@@ -41,7 +40,7 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
    private FacetFactory facetFactory;
 
    @Inject
-   private DBMAFacet dbmaFacet;
+   private DatabaseMigrationFacet dbmaFacet;
    
    @Inject
    @WithAttributes(shortName = 'v', label = "Liquibase Version", type = InputType.DROPDOWN)
@@ -89,7 +88,7 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
    public boolean isEnabled(UIContext context) {
       Boolean parent = super.isEnabled(context);
       if(parent) {
-         return !getSelectedProject(context).hasFacet(DBMAFacet.class);
+         return !getSelectedProject(context).hasFacet(DatabaseMigrationFacet.class);
       }
       return parent;
    }

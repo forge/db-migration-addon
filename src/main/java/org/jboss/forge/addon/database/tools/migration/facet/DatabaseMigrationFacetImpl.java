@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.dbma.facet;
+package org.jboss.forge.addon.database.tools.migration.facet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
-import org.jboss.forge.addon.dbma.properties.DBMAPropertiesBuilder;
-import org.jboss.forge.addon.dbma.util.Constants;
+import org.jboss.forge.addon.database.tools.migration.properties.ConnectionPropertiesBuilder;
+import org.jboss.forge.addon.database.tools.migration.util.Constants;
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
 import org.jboss.forge.addon.facets.AbstractFacet;
 import org.jboss.forge.addon.facets.constraints.FacetConstraint;
@@ -35,7 +35,7 @@ import org.jboss.forge.addon.resource.FileResource;
          @FacetConstraint(MetadataFacet.class),
          @FacetConstraint(ResourcesFacet.class)
 })
-public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
+public class DatabaseMigrationFacetImpl extends AbstractFacet<Project> implements DatabaseMigrationFacet
 {
 
    private DependencyBuilder createLiquibaseDependency()
@@ -78,7 +78,7 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
    public void createMigrationDirectory()
    {
       ResourcesFacet resourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
-      resourcesFacet.getResourceDirectory().getOrCreateChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME);
+      resourcesFacet.getResourceDirectory().getOrCreateChildDirectory(Constants.MIGRATION_DIRECTORY_NAME);
    }
 
    @Override
@@ -87,22 +87,21 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
       DependencyFacet dependencyFacet = getFaceted().getFacet(DependencyFacet.class);
       return dependencyFacet.hasDirectManagedDependency(createLiquibaseDependency())
                && getFaceted().getFacet(ResourcesFacet.class).getResourceDirectory()
-                        .getChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME).exists();
+                        .getChildDirectory(Constants.MIGRATION_DIRECTORY_NAME).exists();
    }
 
    public void setPropertiesFile(ConnectionProfile connection)
    {
       String liquibaseVersion = getFaceted().getFacet(MetadataFacet.class).getDirectProperty(
                Constants.LIQUIBASE_VERSION_PROPERTY_NAME);
-      DBMAPropertiesBuilder pBuilder = DBMAPropertiesBuilder.create();
-
+      ConnectionPropertiesBuilder pBuilder = ConnectionPropertiesBuilder.create();
       pBuilder.setConnection(connection).setLiquibaseVersion(liquibaseVersion);
 
       ResourcesFacet projectResourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
       DirectoryResource migrationDir = projectResourcesFacet.getResourceDirectory().getChildDirectory(
-               Constants.DBMA_MIGRATION_DIRECTORY_NAME);
+               Constants.MIGRATION_DIRECTORY_NAME);
 
-      FileResource<?> propertiesFile = migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE_NAME).reify(
+      FileResource<?> propertiesFile = migrationDir.getChild(Constants.PROPERTIES_FILE_NAME).reify(
                FileResource.class);
       propertiesFile.setContents(pBuilder.toString());
    }
@@ -113,10 +112,10 @@ public class DBMAFacetImpl extends AbstractFacet<Project> implements DBMAFacet
 
       ResourcesFacet resourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
       DirectoryResource migrationDir = resourcesFacet.getResourceDirectory().getChildDirectory(
-               Constants.DBMA_MIGRATION_DIRECTORY_NAME);
+               Constants.MIGRATION_DIRECTORY_NAME);
       try
       {
-         dbmaProperties.load(migrationDir.getChild(Constants.DBMA_PROPERTIES_FILE_NAME).getResourceInputStream());
+         dbmaProperties.load(migrationDir.getChild(Constants.PROPERTIES_FILE_NAME).getResourceInputStream());
       }
       catch (IOException e)
       {

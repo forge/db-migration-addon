@@ -4,14 +4,14 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.commands;
+package org.jboss.forge.addon.database.tools.migration.commands;
 
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.forge.addon.dbma.commands.AddLiquibaseCommand;
-import org.jboss.forge.addon.dbma.util.Constants;
+import org.jboss.forge.addon.database.tools.migration.commands.AddLiquibaseCommand;
+import org.jboss.forge.addon.database.tools.migration.util.Constants;
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
@@ -73,7 +73,7 @@ public class AddLiquibaseCommandTest
          
          Result result = commandController.execute();
          Assert.assertTrue(project.getFacet(ResourcesFacet.class).getResourceDirectory()
-                  .getChildDirectory(Constants.DBMA_MIGRATION_DIRECTORY_NAME).exists());
+                  .getChildDirectory(Constants.MIGRATION_DIRECTORY_NAME).exists());
 
          DependencyFacet depFacet = project.getFacet(DependencyFacet.class);
          Assert.assertTrue(depFacet.hasDirectManagedDependency(DependencyBuilder.create()

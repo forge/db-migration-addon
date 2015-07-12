@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.dbma.facet;
+package org.jboss.forge.addon.database.tools.migration.facet;
 
 import java.util.List;
 import java.util.Properties;
@@ -18,7 +18,7 @@ import org.jboss.forge.addon.projects.ProjectFacet;
  */
 
 
-public interface DBMAFacet extends ProjectFacet
+public interface DatabaseMigrationFacet extends ProjectFacet
 {
    /**
     * set the properties file for Liquibase

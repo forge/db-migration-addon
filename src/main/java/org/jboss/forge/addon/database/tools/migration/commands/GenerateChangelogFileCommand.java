@@ -1,6 +1,6 @@
-package org.jboss.forge.addon.dbma.commands;
+package org.jboss.forge.addon.database.tools.migration.commands;
 
-import org.jboss.forge.addon.dbma.facet.DBMAFacet;
+import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
 import org.jboss.forge.addon.ui.command.AbstractUICommand;
@@ -31,7 +31,7 @@ public class GenerateChangelogFileCommand extends AbstractProjectCommand impleme
    private UISelectOne<String> generationMode;
    
    @Inject
-   DBMAFacet dbmaFacet;
+   DatabaseMigrationFacet databaseMigrationFacet;
 
    @Override
    public UICommandMetadata getMetadata(UIContext context)
@@ -49,7 +49,7 @@ public class GenerateChangelogFileCommand extends AbstractProjectCommand impleme
       new Callable<Iterable<String>>() {
          @Override
          public Iterable<String> call() throws Exception {
-            return dbmaFacet.getGenerationModes();
+            return databaseMigrationFacet.getGenerationModes();
          }
       });
       
@@ -73,8 +73,8 @@ public class GenerateChangelogFileCommand extends AbstractProjectCommand impleme
    
    @Override
    public boolean isEnabled(UIContext context) {
-         return getSelectedProject(context).hasFacet(DBMAFacet.class)
-                  && getSelectedProject(context).getFacet(DBMAFacet.class).isInstalled();
+         return getSelectedProject(context).hasFacet(DatabaseMigrationFacet.class)
+                  && getSelectedProject(context).getFacet(DatabaseMigrationFacet.class).isInstalled();
    }
    
    @Override

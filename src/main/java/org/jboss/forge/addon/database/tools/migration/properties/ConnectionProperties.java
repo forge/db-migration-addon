@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.dbma.properties;
+package org.jboss.forge.addon.database.tools.migration.properties;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
 import org.jboss.forge.addon.resource.FileResource;
@@ -13,7 +13,7 @@ import org.jboss.forge.addon.resource.FileResource;
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  *
  */
-public interface DBMAProperties
+public interface ConnectionProperties
 {
    /**
     * get {@link ConnectionProfile}

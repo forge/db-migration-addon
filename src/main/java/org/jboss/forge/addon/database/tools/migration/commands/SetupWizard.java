@@ -4,9 +4,9 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.dbma.commands;
+package org.jboss.forge.addon.database.tools.migration.commands;
 
-import org.jboss.forge.addon.dbma.facet.DBMAFacet;
+import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
 import org.jboss.forge.addon.ui.context.UIBuilder;
@@ -72,7 +72,7 @@ public class SetupWizard extends AbstractProjectCommand implements UIWizard
    public boolean isEnabled(UIContext context) {
       Boolean parent = super.isEnabled(context);
       if(parent) {
-         return !getSelectedProject(context).hasFacet(DBMAFacet.class);
+         return !getSelectedProject(context).hasFacet(DatabaseMigrationFacet.class);
       }
       return parent;
    }

@@ -4,12 +4,12 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.dbma.commands;
+package org.jboss.forge.addon.database.tools.migration.commands;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfileManager;
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfileManagerProvider;
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
-import org.jboss.forge.addon.dbma.facet.DBMAFacet;
+import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
@@ -119,8 +119,8 @@ public class SetPropertiesCommand extends AbstractProjectCommand implements UICo
             connection.setPassword(password);
          }
          Project selectedProj = getSelectedProject(context);
-         if (selectedProj.getFacet(DBMAFacet.class).isInstalled())
-            selectedProj.getFacet(DBMAFacet.class).setPropertiesFile(connection);
+         if (selectedProj.getFacet(DatabaseMigrationFacet.class).isInstalled())
+            selectedProj.getFacet(DatabaseMigrationFacet.class).setPropertiesFile(connection);
       }
       return Results
                .success("Properties stored!");
@@ -129,8 +129,8 @@ public class SetPropertiesCommand extends AbstractProjectCommand implements UICo
    @Override
    public boolean isEnabled(UIContext context)
    {
-      return getSelectedProject(context).hasFacet(DBMAFacet.class)
-               && getSelectedProject(context).getFacet(DBMAFacet.class).isInstalled();
+      return getSelectedProject(context).hasFacet(DatabaseMigrationFacet.class)
+               && getSelectedProject(context).getFacet(DatabaseMigrationFacet.class).isInstalled();
    }
 
    @Override

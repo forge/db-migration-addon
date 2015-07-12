@@ -4,10 +4,10 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.dbma.properties;
+package org.jboss.forge.addon.database.tools.migration.properties;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
-import org.jboss.forge.addon.dbma.util.Constants;
+import org.jboss.forge.addon.database.tools.migration.util.Constants;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  *
  */
-public class DBMAPropertiesBuilderTest
+public class ConnectionPropertiesBuilderTest
 {
       @Test
       public void testCreate()
@@ -29,7 +29,7 @@ public class DBMAPropertiesBuilderTest
          connection.setDriver("dbma-driver");
          connection.setPath("dbma-path");
          
-         DBMAPropertiesBuilder builder = DBMAPropertiesBuilder.create();
+         ConnectionPropertiesBuilder builder = ConnectionPropertiesBuilder.create();
          Assert.assertNotNull(builder);
          builder.setConnection(connection);
          builder.setLiquibaseVersion(Constants.LIQUIBASE_DEFAULT_VERSION);
