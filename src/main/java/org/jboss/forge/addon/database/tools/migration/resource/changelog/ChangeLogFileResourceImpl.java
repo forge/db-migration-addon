@@ -8,13 +8,7 @@ package org.jboss.forge.addon.database.tools.migration.resource.changelog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.List;
-
-import org.jboss.forge.addon.resource.AbstractResource;
-import org.jboss.forge.addon.resource.FileResource;
-import org.jboss.forge.addon.resource.Resource;
 import org.jboss.forge.addon.resource.ResourceFactory;
-import org.jboss.forge.addon.parser.xml.resources.XMLResource;
 import org.jboss.forge.addon.parser.xml.resources.XMLResourceImpl;
 import org.jboss.forge.parser.xml.Node;
 
@@ -36,9 +30,6 @@ public class ChangeLogFileResourceImpl extends XMLResourceImpl implements Change
       super(factory, file);
    }
 
-   /* (non-Javadoc)
-    * @see org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogFileResource#addNewChangeset(org.jboss.forge.parser.xml.Node)
-    */
    @Override
    public ChangeLogFileResource addNewChangeset(Node node)
    {

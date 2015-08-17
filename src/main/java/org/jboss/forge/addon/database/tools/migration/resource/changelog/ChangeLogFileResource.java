@@ -10,7 +10,7 @@ import org.jboss.forge.addon.parser.xml.resources.XMLResource;
 import org.jboss.forge.parser.xml.Node;
 
 /**
- * represents a liquibase changelog file
+ * {@link Resource} that represents a liquibase changelog file, backed by {@link XMLResource}
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  *
  */

@@ -9,14 +9,13 @@ package org.jboss.forge.addon.database.tools.migration.ui;
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
 import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogFileResource;
 import org.jboss.forge.addon.database.tools.migration.util.Constants;
-import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
+import org.jboss.forge.addon.facets.FacetFactory;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
-import org.jboss.forge.addon.projects.facets.DependencyFacet;
-import org.jboss.forge.addon.projects.facets.MetadataFacet;
 import org.jboss.forge.addon.projects.facets.ResourcesFacet;
 import org.jboss.forge.addon.ui.controller.CommandController;
 import org.jboss.forge.addon.ui.result.Result;
@@ -28,12 +27,15 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  *
  */
+@RunWith(Arquillian.class)
 public class GenerateMasterChangeLogFileCommandTest
 {
    @Deployment
@@ -51,15 +53,27 @@ public class GenerateMasterChangeLogFileCommandTest
 
    private Project project;
 
+   @Inject
+   private FacetFactory facetFactory;
+
    @Before
    public void setup() throws Exception
    {
       project = projectFactory.createTempProject();
+
+      try (CommandController commandController = testHarness.createCommandController(AddLiquibaseCommand.class,
+               project.getRoot()))
+      {
+         commandController.initialize();
+         commandController.setValueFor("liquibaseVersion", Constants.LIQUIBASE_DEFAULT_VERSION);
+         commandController.execute();
+      }
    }
 
    @Test
-   public void testAddLiquibaseSetup() throws Exception
+   public void testEmptyMasterChangeLogGeneration() throws Exception
    {
+
       try (CommandController commandController = testHarness.createCommandController(
                GenerateMasterChangeLogFileCommand.class,
                project.getRoot()))
@@ -85,6 +99,7 @@ public class GenerateMasterChangeLogFileCommandTest
 
          Assert.assertEquals(resourceNode.getSingle("databaseChangeLog"), testNode);
          Assert.assertEquals(result.getMessage(), "Master ChangeLog File has been created");
+
       }
    }
 
@@ -93,4 +108,5 @@ public class GenerateMasterChangeLogFileCommandTest
    {
       project.getRoot().delete(true);
    }
+
 }
