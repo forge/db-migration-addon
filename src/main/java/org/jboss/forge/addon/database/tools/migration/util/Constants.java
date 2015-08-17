@@ -13,12 +13,17 @@ package org.jboss.forge.addon.database.tools.migration.util;
 public class Constants
 {
    public static final String MIGRATION_DIRECTORY_NAME = "migration";
-   public static final String PROPERTIES_FILE_NAME = "migration.properties";
    public static final String LIQUIBASE_VERSION_PROPERTY_NAME = "version.liquibase";
-   
+
    public static final String LIQUIBASE_DEFAULT_VERSION = "3.4.0";
-   
+
+   public static final String EMPTY_CHANGELOG_TEMPLATE = "empty_changelog_template.xml";
+   public static final String PROPERTIES_FILE = "migration.properties";
+   public static final String MASTER_CHANGELOG = "db.changelog-master";
+
    public static final String MODE_EMPTY_CHANGELOG = "Generate empty changelog";
    public static final String MODE_CHANGELOG_FROM_DB = "Generate changelog from specified database";
    
+   public static final String DEFAULT_MIGRATIONS_FILE = "defaultChangeLog.xml";
+
 }

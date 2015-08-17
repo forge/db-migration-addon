@@ -67,12 +67,12 @@ public class DatabaseMigrationFacetImplTest
       ResourcesFacet resourcesFacet = project.getFacet(ResourcesFacet.class);
       Assert.assertTrue(resourcesFacet.getResourceDirectory()
                .getChildDirectory(Constants.MIGRATION_DIRECTORY_NAME)
-               .getChild(Constants.PROPERTIES_FILE_NAME).exists());
+               .getChild(Constants.PROPERTIES_FILE).exists());
       
       Properties dbmaProperties = new Properties();
       dbmaProperties.load(resourcesFacet.getResourceDirectory()
                .getChildDirectory(Constants.MIGRATION_DIRECTORY_NAME)
-               .getChild(Constants.PROPERTIES_FILE_NAME).getResourceInputStream());
+               .getChild(Constants.PROPERTIES_FILE).getResourceInputStream());
       Assert.assertEquals(dbmaProperties.getProperty("driver"), "dbma-driver");
       Assert.assertEquals(dbmaProperties.getProperty("username"), "dbma-user");
       Assert.assertEquals(dbmaProperties.getProperty("classpath"), "dbma-path");
@@ -85,11 +85,8 @@ public class DatabaseMigrationFacetImplTest
       dbmaFacet.setPropertiesFile(connection);
       dbmaProperties.load(resourcesFacet.getResourceDirectory()
                .getChildDirectory(Constants.MIGRATION_DIRECTORY_NAME)
-               .getChild(Constants.PROPERTIES_FILE_NAME).getResourceInputStream());
+               .getChild(Constants.PROPERTIES_FILE).getResourceInputStream());
       Assert.assertEquals(dbmaProperties.getProperty("username"), "this-is-me-again");
-
-      
-
       
    }
 

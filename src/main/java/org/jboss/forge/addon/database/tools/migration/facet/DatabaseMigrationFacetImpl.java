@@ -8,12 +8,15 @@ package org.jboss.forge.addon.database.tools.migration.facet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
 import org.jboss.forge.addon.database.tools.migration.properties.ConnectionPropertiesBuilder;
+import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogFileResource;
 import org.jboss.forge.addon.database.tools.migration.util.Constants;
+import org.jboss.forge.addon.database.tools.migration.util.Utils;
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
 import org.jboss.forge.addon.facets.AbstractFacet;
 import org.jboss.forge.addon.facets.constraints.FacetConstraint;
@@ -101,28 +104,31 @@ public class DatabaseMigrationFacetImpl extends AbstractFacet<Project> implement
       DirectoryResource migrationDir = projectResourcesFacet.getResourceDirectory().getChildDirectory(
                Constants.MIGRATION_DIRECTORY_NAME);
 
-      FileResource<?> propertiesFile = migrationDir.getChild(Constants.PROPERTIES_FILE_NAME).reify(
+      FileResource<?> propertiesFile = migrationDir.getChild(Constants.PROPERTIES_FILE).reify(
                FileResource.class);
       propertiesFile.setContents(pBuilder.toString());
    }
 
-   public Properties getDBMAProperties()
+   private DirectoryResource getMigrationDirectory(ResourcesFacet resourcesFacet)
    {
-      Properties dbmaProperties = new Properties();
-
-      ResourcesFacet resourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
-      DirectoryResource migrationDir = resourcesFacet.getResourceDirectory().getChildDirectory(
+      return resourcesFacet.getResourceDirectory().getChildDirectory(
                Constants.MIGRATION_DIRECTORY_NAME);
+   }
+
+   public Properties getProperties()
+   {
+      Properties properties = new Properties();
+      DirectoryResource migrationDir = getMigrationDirectory(getFaceted().getFacet(ResourcesFacet.class));
       try
       {
-         dbmaProperties.load(migrationDir.getChild(Constants.PROPERTIES_FILE_NAME).getResourceInputStream());
+         properties.load(migrationDir.getChild(Constants.PROPERTIES_FILE).getResourceInputStream());
       }
       catch (IOException e)
       {
          // TODO Auto-generated catch block
          e.printStackTrace();
       }
-      return dbmaProperties;
+      return properties;
    }
 
    @Override
@@ -143,6 +149,13 @@ public class DatabaseMigrationFacetImpl extends AbstractFacet<Project> implement
       modes.add(Constants.MODE_CHANGELOG_FROM_DB);
 
       return modes;
+   }
+
+   @Override
+   public ChangeLogFileResource getMasterChangeLog()
+   {
+      DirectoryResource migrationDir = getMigrationDirectory(getFaceted().getFacet(ResourcesFacet.class));
+      return migrationDir.getChild(Constants.MASTER_CHANGELOG).reify(ChangeLogFileResource.class);
    }
 
 }
