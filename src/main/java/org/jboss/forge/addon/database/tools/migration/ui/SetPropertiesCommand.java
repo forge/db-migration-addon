@@ -4,14 +4,19 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.database.tools.migration.commands;
+package org.jboss.forge.addon.database.tools.migration.ui;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfileManager;
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfileManagerProvider;
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
 import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
+import org.jboss.forge.addon.facets.constraints.FacetConstraint;
+import org.jboss.forge.addon.facets.constraints.FacetConstraints;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
+import org.jboss.forge.addon.projects.facets.DependencyFacet;
+import org.jboss.forge.addon.projects.facets.MetadataFacet;
+import org.jboss.forge.addon.projects.facets.ResourcesFacet;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
 import org.jboss.forge.addon.ui.command.UICommand;
 import org.jboss.forge.addon.ui.context.UIBuilder;
@@ -40,6 +45,10 @@ import javax.inject.Inject;
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  *
  */
+
+@FacetConstraints({
+   @FacetConstraint(DatabaseMigrationFacet.class)
+})
 
 public class SetPropertiesCommand extends AbstractProjectCommand implements UICommand
 {
@@ -124,13 +133,6 @@ public class SetPropertiesCommand extends AbstractProjectCommand implements UICo
       }
       return Results
                .success("Properties stored!");
-   }
-
-   @Override
-   public boolean isEnabled(UIContext context)
-   {
-      return getSelectedProject(context).hasFacet(DatabaseMigrationFacet.class)
-               && getSelectedProject(context).getFacet(DatabaseMigrationFacet.class).isInstalled();
    }
 
    @Override

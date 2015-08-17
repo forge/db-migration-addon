@@ -4,7 +4,7 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.database.tools.migration.commands;
+package org.jboss.forge.addon.database.tools.migration.ui;
 
 import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
 import org.jboss.forge.addon.projects.ProjectFactory;
@@ -84,6 +84,6 @@ public class SetupWizard extends AbstractProjectCommand implements UIWizard
       return Results.navigateTo(
                AddLiquibaseCommand.class,
                SetPropertiesCommand.class,
-               GenerateChangelogFileCommand.class);
+               GenerateMasterChangeLogFileCommand.class);
    }
 }
