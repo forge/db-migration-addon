@@ -60,10 +60,21 @@
       <classifier>forge-addon</classifier>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+  <groupId>net.sourceforge.argparse4j</groupId>
+  <artifactId>argparse4j</artifactId>
+  <version>0.6.0</version>
+	</dependency>
 <dependency>
 	<groupId>org.liquibase</groupId>
 	<artifactId>liquibase-core</artifactId>
 	<version>3.3.5</version>
+</dependency>
+
+<dependency>
+	<groupId>org.apache.tomcat</groupId>
+	<artifactId>tomcat-jdbc</artifactId>
+	<version>8.0.24</version>
 </dependency>
 
     <dependency>
