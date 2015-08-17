@@ -4,13 +4,13 @@
  * Licensed under the Eclipse Public License version 1.0, available at
  * http://www.eclipse.org/legal/epl-v10.html
  */
-package org.jboss.forge.addon.database.tools.migration.commands;
+package org.jboss.forge.addon.database.tools.migration.ui;
 
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.forge.addon.database.tools.migration.commands.AddLiquibaseCommand;
+import org.jboss.forge.addon.database.tools.migration.ui.AddLiquibaseCommand;
 import org.jboss.forge.addon.database.tools.migration.util.Constants;
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
 import org.jboss.forge.addon.projects.Project;
