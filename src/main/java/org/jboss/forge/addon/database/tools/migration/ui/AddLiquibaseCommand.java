@@ -40,7 +40,7 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
    private FacetFactory facetFactory;
 
    @Inject
-   private DatabaseMigrationFacet dbmaFacet;
+   private DatabaseMigrationFacet databaseMigrationFacet;
    
    @Inject
    @WithAttributes(shortName = 'v', label = "Liquibase Version", type = InputType.DROPDOWN)
@@ -63,7 +63,7 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
       liquibaseVersion.setValueChoices(new Callable<Iterable<String>>() {
          @Override
          public Iterable<String> call() throws Exception {
-            return dbmaFacet.getLiquibaseVersions();
+            return databaseMigrationFacet.getLiquibaseVersions();
          }
       });
    }
@@ -80,7 +80,7 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
    @Override
    public Result execute(UIExecutionContext context) throws Exception
    {
-      facetFactory.install(getSelectedProject(context), dbmaFacet);
+      facetFactory.install(getSelectedProject(context), databaseMigrationFacet);
       return Results.success("Created migration directory and added liquibase dependency");
    }
 
