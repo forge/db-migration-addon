@@ -1,7 +1,15 @@
-package org.jboss.forge.addon.database.tools.migration.commands;
+package org.jboss.forge.addon.database.tools.migration.ui;
 
 import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
+import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogGenerator;
+import org.jboss.forge.addon.database.tools.migration.util.Constants;
+import org.jboss.forge.addon.facets.constraints.FacetConstraint;
+import org.jboss.forge.addon.facets.constraints.FacetConstraints;
+import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
+import org.jboss.forge.addon.projects.facets.DependencyFacet;
+import org.jboss.forge.addon.projects.facets.MetadataFacet;
+import org.jboss.forge.addon.projects.facets.ResourcesFacet;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
 import org.jboss.forge.addon.ui.command.AbstractUICommand;
 import org.jboss.forge.addon.ui.command.UICommand;
@@ -24,10 +32,14 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
-public class GenerateChangelogFileCommand extends AbstractProjectCommand implements UICommand
+
+@FacetConstraints({
+   @FacetConstraint(DatabaseMigrationFacet.class)
+})
+public class GenerateMasterChangeLogFileCommand extends AbstractProjectCommand implements UICommand
 {
    @Inject
-   @WithAttributes(shortName = 'm', label = "Generation mode", type = InputType.DROPDOWN)
+   @WithAttributes(shortName = 'm', label = "Master ChangeLog File generation", type = InputType.DROPDOWN)
    private UISelectOne<String> generationMode;
    
    @Inject
@@ -36,14 +48,13 @@ public class GenerateChangelogFileCommand extends AbstractProjectCommand impleme
    @Override
    public UICommandMetadata getMetadata(UIContext context)
    {
-      return Metadata.forCommand(GenerateChangelogFileCommand.class)
-            .name("generate-initial-changelog-file");
+      return Metadata.forCommand(GenerateMasterChangeLogFileCommand.class)
+            .name("generate-master-changelog-file");
    }
 
    @Override
    public void initializeUI(UIBuilder builder) throws Exception
    {
-      builder.add(generationMode);
       generationMode.setDefaultValue("");
       generationMode.setValueChoices(
       new Callable<Iterable<String>>() {
@@ -52,7 +63,7 @@ public class GenerateChangelogFileCommand extends AbstractProjectCommand impleme
             return databaseMigrationFacet.getGenerationModes();
          }
       });
-      
+      builder.add(generationMode);
    }
    
    @Override
@@ -61,21 +72,27 @@ public class GenerateChangelogFileCommand extends AbstractProjectCommand impleme
       super.validate(validator);
       if (generationMode.getValue().equals(""))
             validator.addValidationError(generationMode,
-                  "Please select how you want to generate the changelog file");
+                  "Please select your method to initialize the changelog");
    }
 
    @Override
    public Result execute(UIExecutionContext context) throws Exception
    {
+      Project selectedProj = getSelectedProject(context);
+      ChangeLogGenerator generator = new ChangeLogGenerator(selectedProj);
+      
+      String mode = generationMode.getValue();
+      if (mode.equals(Constants.MODE_EMPTY_CHANGELOG)){
+         generator.generateEmptyMasterChangeLog();
+      }
+      else
+      {
+         generator.generateChangeLogFromDatabase();
+      }
       return Results
-            .success("Initial changelog file has been created!");
+            .success("Master ChangeLog File has been created");
    }
    
-   @Override
-   public boolean isEnabled(UIContext context) {
-         return getSelectedProject(context).hasFacet(DatabaseMigrationFacet.class)
-                  && getSelectedProject(context).getFacet(DatabaseMigrationFacet.class).isInstalled();
-   }
    
    @Override
    protected boolean isProjectRequired()
