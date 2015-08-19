@@ -16,10 +16,10 @@ import org.jboss.forge.addon.projects.Project;
  *
  */
 public interface ConnectionPropertiesManager
-{  
+{
    /**
     * 
-    * @return properties used by Liquibase to perform migration 
+    * @return properties used by Liquibase to perform migration
     */
    public Properties loadConnectionProperties(Project project);
 }

@@ -15,7 +15,8 @@ import java.util.Date;
 public class Utils
 {
    /**
-    * generates a file name out of the date by following this pattern: db.changelog-{TIMESTAMP} 
+    * generates a file name out of the date by following this pattern: db.changelog-{TIMESTAMP}
+    * 
     * @param date
     * @return the file name
     */

@@ -67,11 +67,13 @@ public class SetupWizard extends AbstractProjectCommand implements UIWizard
    {
       return true;
    }
-   
+
    @Override
-   public boolean isEnabled(UIContext context) {
+   public boolean isEnabled(UIContext context)
+   {
       Boolean parent = super.isEnabled(context);
-      if(parent) {
+      if (parent)
+      {
          return !getSelectedProject(context).hasFacet(DatabaseMigrationFacet.class);
       }
       return parent;

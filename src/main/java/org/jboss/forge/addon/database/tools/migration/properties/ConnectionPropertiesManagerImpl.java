@@ -21,8 +21,12 @@ import org.jboss.forge.addon.resource.DirectoryResource;
 public class ConnectionPropertiesManagerImpl implements ConnectionPropertiesManager
 {
 
-   /* (non-Javadoc)
-    * @see org.jboss.forge.addon.database.tools.migration.properties.ConnectionPropertiesManager#loadConnectionProperties(org.jboss.forge.addon.projects.Project)
+   /*
+    * (non-Javadoc)
+    * 
+    * @see
+    * org.jboss.forge.addon.database.tools.migration.properties.ConnectionPropertiesManager#loadConnectionProperties
+    * (org.jboss.forge.addon.projects.Project)
     */
    @Override
    public Properties loadConnectionProperties(Project project)
@@ -31,7 +35,7 @@ public class ConnectionPropertiesManagerImpl implements ConnectionPropertiesMana
 
       ResourcesFacet resourcesFacet = project.getFacet(ResourcesFacet.class);
       DirectoryResource migrationDir = resourcesFacet.getResourceDirectory().getChildDirectory(
-               Constants.MIGRATION_DIRECTORY_NAME);
+               Constants.DEFAULT_MIGRATION_DIRECTORY);
       try
       {
          dbmaProperties.load(migrationDir.getChild(Constants.PROPERTIES_FILE).getResourceInputStream());

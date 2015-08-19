@@ -39,5 +39,5 @@ public class GenerateChangeLogCommand extends LiquibaseAbstractCommand
       String subChangeLogFile = namespace.getString("subChangeLogFile");
       liquibase.generateChangeLog(new CatalogAndSchema(null, null), new DiffToChangeLog(new DiffOutputControl()),
                new PrintStream(subChangeLogFile));
-      }
+   }
 }

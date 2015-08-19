@@ -13,7 +13,8 @@ package org.jboss.forge.addon.database.tools.migration.datasource;
 
 import javax.sql.DataSource;
 
-public interface ManagedDataSource extends DataSource {
+public interface ManagedDataSource extends DataSource
+{
 
    public void stop() throws Exception;
 }

@@ -1,17 +1,14 @@
 package org.jboss.forge.addon.database.tools.migration.ui;
 
 import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
-import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogGenerator;
+import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogFileGenerator;
 import org.jboss.forge.addon.database.tools.migration.util.Constants;
 import org.jboss.forge.addon.facets.constraints.FacetConstraint;
 import org.jboss.forge.addon.facets.constraints.FacetConstraints;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.projects.ProjectFactory;
-import org.jboss.forge.addon.projects.facets.DependencyFacet;
-import org.jboss.forge.addon.projects.facets.MetadataFacet;
-import org.jboss.forge.addon.projects.facets.ResourcesFacet;
 import org.jboss.forge.addon.projects.ui.AbstractProjectCommand;
-import org.jboss.forge.addon.ui.command.AbstractUICommand;
+import org.jboss.forge.addon.resource.ResourceFactory;
 import org.jboss.forge.addon.ui.command.UICommand;
 import org.jboss.forge.addon.ui.context.UIBuilder;
 import org.jboss.forge.addon.ui.context.UIContext;
@@ -22,7 +19,6 @@ import org.jboss.forge.addon.ui.input.UISelectOne;
 import org.jboss.forge.addon.ui.metadata.UICommandMetadata;
 import org.jboss.forge.addon.ui.metadata.WithAttributes;
 import org.jboss.forge.addon.ui.util.Metadata;
-import org.jboss.forge.addon.ui.util.Categories;
 import org.jboss.forge.addon.ui.result.Result;
 import org.jboss.forge.addon.ui.result.Results;
 
@@ -32,15 +28,17 @@ import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
-
 @FacetConstraints({
-   @FacetConstraint(DatabaseMigrationFacet.class)
+         @FacetConstraint(DatabaseMigrationFacet.class)
 })
 public class GenerateMasterChangeLogFileCommand extends AbstractProjectCommand implements UICommand
 {
    @Inject
    @WithAttributes(shortName = 'm', label = "Master ChangeLog File generation", type = InputType.DROPDOWN)
    private UISelectOne<String> generationMode;
+
+   @Inject
+   ResourceFactory resourceFactory;
    
    @Inject
    DatabaseMigrationFacet databaseMigrationFacet;
@@ -49,7 +47,7 @@ public class GenerateMasterChangeLogFileCommand extends AbstractProjectCommand i
    public UICommandMetadata getMetadata(UIContext context)
    {
       return Metadata.forCommand(GenerateMasterChangeLogFileCommand.class)
-            .name("generate-master-changelog-file");
+               .name("generate-master-changelog-file");
    }
 
    @Override
@@ -57,21 +55,23 @@ public class GenerateMasterChangeLogFileCommand extends AbstractProjectCommand i
    {
       generationMode.setDefaultValue("");
       generationMode.setValueChoices(
-      new Callable<Iterable<String>>() {
-         @Override
-         public Iterable<String> call() throws Exception {
-            return databaseMigrationFacet.getGenerationModes();
-         }
-      });
+               new Callable<Iterable<String>>()
+               {
+                  @Override
+                  public Iterable<String> call() throws Exception
+                  {
+                     return databaseMigrationFacet.getGenerationModes();
+                  }
+               });
       builder.add(generationMode);
    }
-   
+
    @Override
    public void validate(UIValidationContext validator)
    {
       super.validate(validator);
       if (generationMode.getValue().equals(""))
-            validator.addValidationError(generationMode,
+         validator.addValidationError(generationMode,
                   "Please select your method to initialize the changelog");
    }
 
@@ -79,21 +79,21 @@ public class GenerateMasterChangeLogFileCommand extends AbstractProjectCommand i
    public Result execute(UIExecutionContext context) throws Exception
    {
       Project selectedProj = getSelectedProject(context);
-      ChangeLogGenerator generator = new ChangeLogGenerator(selectedProj);
-      
+      ChangeLogFileGenerator generator = new ChangeLogFileGenerator(selectedProj);
+
       String mode = generationMode.getValue();
-      if (mode.equals(Constants.MODE_EMPTY_CHANGELOG)){
+      if (mode.equals(Constants.MODE_EMPTY_CHANGELOG))
+      {
          generator.generateEmptyMasterChangeLog();
       }
       else
       {
-         generator.generateChangeLogFromDatabase();
+         //generator.generateChangeLogFromDatabase();
       }
       return Results
-            .success("Master ChangeLog File has been created");
+               .success("Master ChangeLog File has been created");
    }
-   
-   
+
    @Override
    protected boolean isProjectRequired()
    {
@@ -102,7 +102,7 @@ public class GenerateMasterChangeLogFileCommand extends AbstractProjectCommand i
 
    @Inject
    private ProjectFactory projectFactory;
-   
+
    @Override
    protected ProjectFactory getProjectFactory()
    {

@@ -6,7 +6,6 @@
  */
 package org.jboss.forge.addon.database.tools.migration.datasource;
 
-
 import org.apache.tomcat.jdbc.pool.DataSourceProxy;
 import org.apache.tomcat.jdbc.pool.PoolConfiguration;
 
@@ -16,13 +15,15 @@ import org.apache.tomcat.jdbc.pool.PoolConfiguration;
  */
 public class ManagedDataSourceImpl extends DataSourceProxy implements ManagedDataSource
 {
-   public ManagedDataSourceImpl(PoolConfiguration config){
+   public ManagedDataSourceImpl(PoolConfiguration config)
+   {
       super(config);
    }
-   
+
    @Override
-   public void stop() throws Exception {
-       close();
+   public void stop() throws Exception
+   {
+      close();
    }
-   
+
 }

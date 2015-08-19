@@ -19,7 +19,7 @@ public interface ConnectionProperties
     * get {@link ConnectionProfile}
     */
    ConnectionProfile getConnectionProfile();
-   
+
    /**
     * get LiquibaseVersion
     */

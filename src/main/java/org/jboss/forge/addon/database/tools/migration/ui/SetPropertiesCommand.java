@@ -47,9 +47,8 @@ import javax.inject.Inject;
  */
 
 @FacetConstraints({
-   @FacetConstraint(DatabaseMigrationFacet.class)
+         @FacetConstraint(DatabaseMigrationFacet.class)
 })
-
 public class SetPropertiesCommand extends AbstractProjectCommand implements UICommand
 {
    @Inject
@@ -101,16 +100,15 @@ public class SetPropertiesCommand extends AbstractProjectCommand implements UICo
       });
       builder.add(connectionProfile).add(connectionProfilePassword);
    }
-   
-   
+
    @Override
    public void validate(UIValidationContext validator)
    {
       super.validate(validator);
       if (connectionProfile.getValue().equals(""))
-            validator.addValidationError(connectionProfile,
+         validator.addValidationError(connectionProfile,
                   "Please select a database connection. If there is no connection, "
-                  + "please use Forge to create a new connection profile");
+                           + "please use Forge to create a new connection profile");
    }
 
    @Override

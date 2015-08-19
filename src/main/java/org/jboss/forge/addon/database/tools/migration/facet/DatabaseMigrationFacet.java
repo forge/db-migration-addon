@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
-import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogFileResource;
+import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogResource;
 import org.jboss.forge.addon.projects.ProjectFacet;
 
 /**
@@ -36,9 +36,10 @@ public interface DatabaseMigrationFacet extends ProjectFacet
 
    /**
     * 
-    * @return {@link ChangeLogFileResource} used to perform migrations operations. Returns null if there is no ChangeLog file
+    * @return {@link ChangeLogFileResource} used to perform migrations operations. Returns null if there is no ChangeLog
+    *         file
     */
-   public ChangeLogFileResource getMasterChangeLog();
+   public ChangeLogResource getMasterChangeLog();
 
    /**
     * @return a list of Liquibase available versions

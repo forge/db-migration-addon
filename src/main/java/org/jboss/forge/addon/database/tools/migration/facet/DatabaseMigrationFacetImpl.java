@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import org.jboss.forge.addon.database.tools.connections.ConnectionProfile;
 import org.jboss.forge.addon.database.tools.migration.properties.ConnectionPropertiesBuilder;
-import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogFileResource;
+import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogResource;
 import org.jboss.forge.addon.database.tools.migration.util.Constants;
 import org.jboss.forge.addon.database.tools.migration.util.Utils;
 import org.jboss.forge.addon.dependencies.builder.DependencyBuilder;
@@ -81,7 +81,7 @@ public class DatabaseMigrationFacetImpl extends AbstractFacet<Project> implement
    public void createMigrationDirectory()
    {
       ResourcesFacet resourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
-      resourcesFacet.getResourceDirectory().getOrCreateChildDirectory(Constants.MIGRATION_DIRECTORY_NAME);
+      resourcesFacet.getResourceDirectory().getOrCreateChildDirectory(Constants.DEFAULT_MIGRATION_DIRECTORY);
    }
 
    @Override
@@ -90,7 +90,7 @@ public class DatabaseMigrationFacetImpl extends AbstractFacet<Project> implement
       DependencyFacet dependencyFacet = getFaceted().getFacet(DependencyFacet.class);
       return dependencyFacet.hasDirectManagedDependency(createLiquibaseDependency())
                && getFaceted().getFacet(ResourcesFacet.class).getResourceDirectory()
-                        .getChildDirectory(Constants.MIGRATION_DIRECTORY_NAME).exists();
+                        .getChildDirectory(Constants.DEFAULT_MIGRATION_DIRECTORY).exists();
    }
 
    public void setPropertiesFile(ConnectionProfile connection)
@@ -102,7 +102,7 @@ public class DatabaseMigrationFacetImpl extends AbstractFacet<Project> implement
 
       ResourcesFacet projectResourcesFacet = getFaceted().getFacet(ResourcesFacet.class);
       DirectoryResource migrationDir = projectResourcesFacet.getResourceDirectory().getChildDirectory(
-               Constants.MIGRATION_DIRECTORY_NAME);
+               Constants.DEFAULT_MIGRATION_DIRECTORY);
 
       FileResource<?> propertiesFile = migrationDir.getChild(Constants.PROPERTIES_FILE).reify(
                FileResource.class);
@@ -112,7 +112,7 @@ public class DatabaseMigrationFacetImpl extends AbstractFacet<Project> implement
    private DirectoryResource getMigrationDirectory(ResourcesFacet resourcesFacet)
    {
       return resourcesFacet.getResourceDirectory().getChildDirectory(
-               Constants.MIGRATION_DIRECTORY_NAME);
+               Constants.DEFAULT_MIGRATION_DIRECTORY);
    }
 
    public Properties getProperties()
@@ -152,10 +152,10 @@ public class DatabaseMigrationFacetImpl extends AbstractFacet<Project> implement
    }
 
    @Override
-   public ChangeLogFileResource getMasterChangeLog()
+   public ChangeLogResource getMasterChangeLog()
    {
       DirectoryResource migrationDir = getMigrationDirectory(getFaceted().getFacet(ResourcesFacet.class));
-      return migrationDir.getChild(Constants.MASTER_CHANGELOG).reify(ChangeLogFileResource.class);
+      return migrationDir.getChild(Constants.MASTER_CHANGELOG).reify(ChangeLogResource.class);
    }
 
 }

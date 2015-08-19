@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.forge.addon.database.tools.migration.facet.DatabaseMigrationFacet;
-import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogFileResource;
+import org.jboss.forge.addon.database.tools.migration.resource.changelog.ChangeLogResource;
 import org.jboss.forge.addon.database.tools.migration.util.Constants;
 import org.jboss.forge.addon.facets.FacetFactory;
 import org.jboss.forge.addon.projects.Project;
@@ -61,12 +61,12 @@ public class GenerateMasterChangeLogFileCommandTest
    {
       project = projectFactory.createTempProject();
 
-      try (CommandController commandController = testHarness.createCommandController(AddLiquibaseCommand.class,
+      try (CommandController LiquibaseCommandController = testHarness.createCommandController(AddLiquibaseCommand.class,
                project.getRoot()))
       {
-         commandController.initialize();
-         commandController.setValueFor("liquibaseVersion", Constants.LIQUIBASE_DEFAULT_VERSION);
-         commandController.execute();
+         LiquibaseCommandController.initialize();
+         LiquibaseCommandController.setValueFor("liquibaseVersion", Constants.LIQUIBASE_DEFAULT_VERSION);
+         LiquibaseCommandController.execute();
       }
    }
 
@@ -85,10 +85,10 @@ public class GenerateMasterChangeLogFileCommandTest
 
          Result result = commandController.execute();
          Assert.assertTrue(project.getFacet(ResourcesFacet.class).getResourceDirectory()
-                  .getChildDirectory(Constants.MIGRATION_DIRECTORY_NAME).getChild(Constants.MASTER_CHANGELOG).exists());
+                  .getChildDirectory(Constants.DEFAULT_MIGRATION_DIRECTORY).getChild(Constants.MASTER_CHANGELOG).exists());
 
          DatabaseMigrationFacet migrationFacet = project.getFacet(DatabaseMigrationFacet.class);
-         ChangeLogFileResource changeLog = migrationFacet.getMasterChangeLog();
+         ChangeLogResource changeLog = migrationFacet.getMasterChangeLog();
          Assert.assertTrue(changeLog != null);
          Node resourceNode = changeLog.getXmlSource();
          Node testNode = new Node("databaseChangeLog");

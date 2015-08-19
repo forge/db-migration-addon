@@ -6,7 +6,6 @@
  */
 package org.jboss.forge.addon.database.tools.migration.liquibase;
 
-
 import java.sql.SQLException;
 
 import org.jboss.forge.addon.database.tools.migration.datasource.ManagedDataSource;
@@ -22,30 +21,36 @@ import liquibase.resource.FileSystemResourceAccessor;
  * @author <a href="mailto:wicem.zrelly@gmail.com">Wissem Zrelli</a>
  *
  */
-public class AutoCloseableLiquibase extends Liquibase implements AutoCloseable {
+public class AutoCloseableLiquibase extends Liquibase implements AutoCloseable
+{
    private final ManagedDataSource dataSource;
 
-   
-   public AutoCloseableLiquibase(ManagedDataSource dataSource) throws LiquibaseException, SQLException {
+   public AutoCloseableLiquibase(ManagedDataSource dataSource) throws LiquibaseException, SQLException
+   {
       super(Constants.DEFAULT_MIGRATIONS_FILE,
-            new ClassLoaderResourceAccessor(),
-            new JdbcConnection(dataSource.getConnection()));
+               new ClassLoaderResourceAccessor(),
+               new JdbcConnection(dataSource.getConnection()));
       this.dataSource = dataSource;
-  }
-   
-   public AutoCloseableLiquibase(ManagedDataSource dataSource, String fileName) throws LiquibaseException, SQLException {
-       super(fileName,
-             new FileSystemResourceAccessor(),
-             new JdbcConnection(dataSource.getConnection()));
-       this.dataSource = dataSource;
+   }
+
+   public AutoCloseableLiquibase(ManagedDataSource dataSource, String fileName) throws LiquibaseException, SQLException
+   {
+      super(fileName,
+               new FileSystemResourceAccessor(),
+               new JdbcConnection(dataSource.getConnection()));
+      this.dataSource = dataSource;
    }
 
    @Override
-   public void close() throws Exception {
-       try {
-           database.close();
-       } finally {
-           dataSource.stop();
-       }
+   public void close() throws Exception
+   {
+      try
+      {
+         database.close();
+      }
+      finally
+      {
+         dataSource.stop();
+      }
    }
 }

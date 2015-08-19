@@ -41,7 +41,7 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
 
    @Inject
    private DatabaseMigrationFacet databaseMigrationFacet;
-   
+
    @Inject
    @WithAttributes(shortName = 'v', label = "Liquibase Version", type = InputType.DROPDOWN)
    private UISelectOne<String> liquibaseVersion;
@@ -60,20 +60,22 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
    {
       builder.add(liquibaseVersion);
       liquibaseVersion.setDefaultValue("");
-      liquibaseVersion.setValueChoices(new Callable<Iterable<String>>() {
+      liquibaseVersion.setValueChoices(new Callable<Iterable<String>>()
+      {
          @Override
-         public Iterable<String> call() throws Exception {
+         public Iterable<String> call() throws Exception
+         {
             return databaseMigrationFacet.getLiquibaseVersions();
          }
       });
    }
-   
+
    @Override
    public void validate(UIValidationContext validator)
    {
       super.validate(validator);
       if (liquibaseVersion.getValue().equals(""))
-            validator.addValidationError(liquibaseVersion,
+         validator.addValidationError(liquibaseVersion,
                   "Please select a Liquibase version");
    }
 
@@ -85,14 +87,16 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
    }
 
    @Override
-   public boolean isEnabled(UIContext context) {
+   public boolean isEnabled(UIContext context)
+   {
       Boolean parent = super.isEnabled(context);
-      if(parent) {
+      if (parent)
+      {
          return !getSelectedProject(context).hasFacet(DatabaseMigrationFacet.class);
       }
       return parent;
    }
-   
+
    @Override
    protected boolean isProjectRequired()
    {
@@ -101,7 +105,7 @@ public class AddLiquibaseCommand extends AbstractProjectCommand implements UICom
 
    @Inject
    private ProjectFactory projectFactory;
-   
+
    @Override
    protected ProjectFactory getProjectFactory()
    {
